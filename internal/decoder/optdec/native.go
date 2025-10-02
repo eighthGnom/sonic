@@ -7,10 +7,10 @@ import (
 
 	"sync"
 
-	"github.com/bytedance/sonic/internal/native"
-	"github.com/bytedance/sonic/internal/native/types"
-	"github.com/bytedance/sonic/internal/rt"
-	"github.com/bytedance/sonic/utf8"
+	"github.com/eighthGnom/sonic/internal/native"
+	"github.com/eighthGnom/sonic/internal/native/types"
+	"github.com/eighthGnom/sonic/internal/rt"
+	"github.com/eighthGnom/sonic/utf8"
 )
 
 type ErrorCode int

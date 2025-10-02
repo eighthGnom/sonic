@@ -1,3 +1,4 @@
+//go:build !go1.24
 // +build !go1.24
 
 package example
@@ -5,13 +6,13 @@ package example
 import (
 	"bytes"
 	"fmt"
+	"github.com/eighthGnom/sonic"
 	"strings"
-	"github.com/bytedance/sonic"
 )
 
 // This example uses a Decoder to decode a stream of distinct JSON values.
 func ExampleStreamDecoder() {
-	var o =  map[string]interface{}{}
+	var o = map[string]interface{}{}
 	var r = strings.NewReader(`{"a":"b"}{"1":"2"}`)
 	var dec = sonic.ConfigDefault.NewDecoder(r)
 	dec.Decode(&o)
@@ -20,7 +21,6 @@ func ExampleStreamDecoder() {
 	// Output:
 	// map[1:2 a:b]
 }
-
 
 // This example uses a Encoder to encode streamingly.
 func ExampleStreamEncoder() {
