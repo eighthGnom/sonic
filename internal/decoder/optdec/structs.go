@@ -4,9 +4,9 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/bytedance/sonic/internal/decoder/consts"
-	caching "github.com/bytedance/sonic/internal/optcaching"
-	"github.com/bytedance/sonic/internal/resolver"
+	"github.com/eighthGnom/sonic/internal/decoder/consts"
+	caching "github.com/eighthGnom/sonic/internal/optcaching"
+	"github.com/eighthGnom/sonic/internal/resolver"
 )
 
 type fieldEntry struct {
@@ -40,12 +40,12 @@ func (d *structDecoder) FromDom(vp unsafe.Pointer, node Node, ctx *context) erro
 
 		// find field idx
 		idx := d.fieldMap.Get(key, ctx.Options()&uint64(consts.OptionCaseSensitive) != 0)
-        if idx == -1 {
-            if Options(ctx.Options())&OptionDisableUnknown != 0 {
-                return error_field(key)
-            }
-            continue
-        }
+		if idx == -1 {
+			if Options(ctx.Options())&OptionDisableUnknown != 0 {
+				return error_field(key)
+			}
+			continue
+		}
 
 		offset := d.fields[idx].Path[0].Size
 		elem := unsafe.Pointer(uintptr(vp) + offset)
@@ -59,4 +59,3 @@ func (d *structDecoder) FromDom(vp unsafe.Pointer, node Node, ctx *context) erro
 	}
 	return gerr
 }
-

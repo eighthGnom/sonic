@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/bytedance/sonic/option"
+	"github.com/eighthGnom/sonic/option"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -4,11 +4,10 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/bytedance/sonic/internal/native"
-	"github.com/bytedance/sonic/internal/utils"
-	"github.com/bytedance/sonic/internal/native/types"
+	"github.com/eighthGnom/sonic/internal/native"
+	"github.com/eighthGnom/sonic/internal/native/types"
+	"github.com/eighthGnom/sonic/internal/utils"
 )
-
 
 func SkipNumberFast(json string, start int) (int, bool) {
 	// find the number ending, we parsed in native, it always valid

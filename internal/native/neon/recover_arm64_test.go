@@ -2,13 +2,13 @@
 
 /**
  * Copyright 2023 ByteDance Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,39 +19,39 @@
 package neon
 
 import (
-	`os`
-	`time`
-	`runtime`
-	`runtime/debug`
-	`testing`
-	`unsafe`
+	"os"
+	"runtime"
+	"runtime/debug"
+	"testing"
+	"time"
+	"unsafe"
 
-	`github.com/bytedance/sonic/internal/native/types`
+	"github.com/eighthGnom/sonic/internal/native/types"
 )
 
 var (
 	debugAsyncGC = os.Getenv("SONIC_NO_ASYNC_GC") == ""
 )
 
-func TestMain(m *testing.M) {	
-	go func ()  {
+func TestMain(m *testing.M) {
+	go func() {
 		if !debugAsyncGC {
 			return
 		}
 		println("Begin GC looping...")
 		for {
-		runtime.GC()
-		debug.FreeOSMemory() 
+			runtime.GC()
+			debug.FreeOSMemory()
 		}
 		println("stop GC looping!")
 	}()
-	time.Sleep(time.Millisecond*100)
+	time.Sleep(time.Millisecond * 100)
 	m.Run()
 }
 
 func TestRecover_f32toa(t *testing.T) {
 	defer func() {
-		if r := recover(); r!= nil {
+		if r := recover(); r != nil {
 			t.Log("recover: ", r)
 		} else {
 			t.Fatal("no panic")
@@ -62,7 +62,7 @@ func TestRecover_f32toa(t *testing.T) {
 
 func TestRecover_f64toa(t *testing.T) {
 	defer func() {
-		if r := recover(); r!= nil {
+		if r := recover(); r != nil {
 			t.Log("recover: ", r)
 		} else {
 			t.Fatal("no panic")
@@ -73,7 +73,7 @@ func TestRecover_f64toa(t *testing.T) {
 
 func TestRecover_i64toa(t *testing.T) {
 	defer func() {
-		if r := recover(); r!= nil {
+		if r := recover(); r != nil {
 			t.Log("recover: ", r)
 		} else {
 			t.Fatal("no panic")
@@ -84,7 +84,7 @@ func TestRecover_i64toa(t *testing.T) {
 
 func TestRecover_u64toa(t *testing.T) {
 	defer func() {
-		if r := recover(); r!= nil {
+		if r := recover(); r != nil {
 			t.Log("recover: ", r)
 		} else {
 			t.Fatal("no panic")
@@ -95,7 +95,7 @@ func TestRecover_u64toa(t *testing.T) {
 
 func TestRecover_lspace(t *testing.T) {
 	defer func() {
-		if r := recover(); r!= nil {
+		if r := recover(); r != nil {
 			t.Log("recover: ", r)
 		} else {
 			t.Fatal("no panic")
@@ -110,7 +110,7 @@ func TestRecover_quote(t *testing.T) {
 	var sp = []byte("123")
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -120,7 +120,7 @@ func TestRecover_quote(t *testing.T) {
 	})
 	t.Run("dp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -130,7 +130,7 @@ func TestRecover_quote(t *testing.T) {
 	})
 	t.Run("dn", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -146,7 +146,7 @@ func TestRecover_html_escape(t *testing.T) {
 	var sp = []byte("123")
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -156,7 +156,7 @@ func TestRecover_html_escape(t *testing.T) {
 	})
 	t.Run("dp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -166,7 +166,7 @@ func TestRecover_html_escape(t *testing.T) {
 	})
 	t.Run("dn", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -177,39 +177,39 @@ func TestRecover_html_escape(t *testing.T) {
 }
 
 func TestRecover_unquote(t *testing.T) {
-    var ep = 0
-    var dp = make([]byte, 10)
-    var sp = []byte("12\\x\"3\"4")
-    t.Run("sp", func(t *testing.T) {
-        defer func() {
-            if r := recover(); r!= nil {
-                t.Log("recover: ", r)
-            } else {
-                t.Fatal("no panic")
-            }
-        }()
-        _ = unquote(nil, len(sp), unsafe.Pointer(&dp[0]), &ep, 0)
-    })
-    t.Run("dp", func(t *testing.T) {
-        defer func() {
-            if r := recover(); r!= nil {
-                t.Log("recover: ", r)
-            } else {
-                t.Fatal("no panic")
-            }
-        }()
-        _ = unquote(unsafe.Pointer(&sp[0]), len(sp), nil, &ep, 0)
-    })
-    t.Run("ep", func(t *testing.T) {
-        defer func() {
-            if r := recover(); r!= nil {
-                t.Log("recover: ", r)
-            } else {
-                t.Fatal("no panic")
-            }
-        }()
-        _ = unquote(unsafe.Pointer(&sp[0]), len(sp), unsafe.Pointer(&dp[0]), nil, 0)
-    })
+	var ep = 0
+	var dp = make([]byte, 10)
+	var sp = []byte("12\\x\"3\"4")
+	t.Run("sp", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r != nil {
+				t.Log("recover: ", r)
+			} else {
+				t.Fatal("no panic")
+			}
+		}()
+		_ = unquote(nil, len(sp), unsafe.Pointer(&dp[0]), &ep, 0)
+	})
+	t.Run("dp", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r != nil {
+				t.Log("recover: ", r)
+			} else {
+				t.Fatal("no panic")
+			}
+		}()
+		_ = unquote(unsafe.Pointer(&sp[0]), len(sp), nil, &ep, 0)
+	})
+	t.Run("ep", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r != nil {
+				t.Log("recover: ", r)
+			} else {
+				t.Fatal("no panic")
+			}
+		}()
+		_ = unquote(unsafe.Pointer(&sp[0]), len(sp), unsafe.Pointer(&dp[0]), nil, 0)
+	})
 }
 
 func TestRecover_value(t *testing.T) {
@@ -217,7 +217,7 @@ func TestRecover_value(t *testing.T) {
 	var sp = []byte("123")
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -227,7 +227,7 @@ func TestRecover_value(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -243,7 +243,7 @@ func TestRecover_vstring(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -253,7 +253,7 @@ func TestRecover_vstring(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -263,7 +263,7 @@ func TestRecover_vstring(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -279,7 +279,7 @@ func TestRecover_vnumber(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -289,7 +289,7 @@ func TestRecover_vnumber(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -299,7 +299,7 @@ func TestRecover_vnumber(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -315,7 +315,7 @@ func TestRecover_vsigned(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -325,7 +325,7 @@ func TestRecover_vsigned(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -335,7 +335,7 @@ func TestRecover_vsigned(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -351,7 +351,7 @@ func TestRecover_vunsigned(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -361,7 +361,7 @@ func TestRecover_vunsigned(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -371,7 +371,7 @@ func TestRecover_vunsigned(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -387,7 +387,7 @@ func TestRecover_skip_one(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -397,7 +397,7 @@ func TestRecover_skip_one(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -407,7 +407,7 @@ func TestRecover_skip_one(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -422,7 +422,7 @@ func TestRecover_skip_one_fast(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -432,7 +432,7 @@ func TestRecover_skip_one_fast(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -448,7 +448,7 @@ func TestRecover_skip_array(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -458,7 +458,7 @@ func TestRecover_skip_array(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -468,7 +468,7 @@ func TestRecover_skip_array(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -484,7 +484,7 @@ func TestRecover_skip_object(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -494,7 +494,7 @@ func TestRecover_skip_object(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -504,7 +504,7 @@ func TestRecover_skip_object(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -519,7 +519,7 @@ func TestRecover_skip_number(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -529,7 +529,7 @@ func TestRecover_skip_number(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -546,7 +546,7 @@ func TestRecover_get_by_path(t *testing.T) {
 	var m = types.NewStateMachine()
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -556,7 +556,7 @@ func TestRecover_get_by_path(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -566,7 +566,7 @@ func TestRecover_get_by_path(t *testing.T) {
 	})
 	t.Run("path", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -582,7 +582,7 @@ func TestRecover_validate_one(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -592,7 +592,7 @@ func TestRecover_validate_one(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -602,7 +602,7 @@ func TestRecover_validate_one(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -618,7 +618,7 @@ func TestRecover_validate_utf8(t *testing.T) {
 	var p = 0
 	t.Run("sp", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -628,7 +628,7 @@ func TestRecover_validate_utf8(t *testing.T) {
 	})
 	t.Run("p", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -638,7 +638,7 @@ func TestRecover_validate_utf8(t *testing.T) {
 	})
 	t.Run("v", func(t *testing.T) {
 		defer func() {
-			if r := recover(); r!= nil {
+			if r := recover(); r != nil {
 				t.Log("recover: ", r)
 			} else {
 				t.Fatal("no panic")
@@ -650,7 +650,7 @@ func TestRecover_validate_utf8(t *testing.T) {
 
 func TestRecover_validate_utf8_fast(t *testing.T) {
 	defer func() {
-		if r := recover(); r!= nil {
+		if r := recover(); r != nil {
 			t.Log("recover: ", r)
 		} else {
 			t.Fatal("no panic")

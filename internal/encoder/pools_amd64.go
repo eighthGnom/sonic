@@ -20,10 +20,10 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/bytedance/sonic/internal/encoder/vars"
-	"github.com/bytedance/sonic/internal/encoder/x86"
-	"github.com/bytedance/sonic/internal/rt"
-	"github.com/bytedance/sonic/option"
+	"github.com/eighthGnom/sonic/internal/encoder/vars"
+	"github.com/eighthGnom/sonic/internal/encoder/x86"
+	"github.com/eighthGnom/sonic/internal/rt"
+	"github.com/eighthGnom/sonic/option"
 )
 
 func ForceUseJit() {
