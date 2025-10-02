@@ -1,4 +1,4 @@
-module github.com/eighthGnom/sonic
+module github.com/bytedance/sonic
 
 go 1.18
 
