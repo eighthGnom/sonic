@@ -25,9 +25,9 @@ import (
 	"strings"
 	"unsafe"
 
-	"github.com/eighthGnom/sonic/internal/encoder/ir"
-	"github.com/eighthGnom/sonic/internal/encoder/vars"
-	"github.com/eighthGnom/sonic/internal/jit"
+	"github.com/bytedance/sonic/internal/encoder/ir"
+	"github.com/bytedance/sonic/internal/encoder/vars"
+	"github.com/bytedance/sonic/internal/jit"
 	"github.com/twitchyliquid64/golang-asm/obj"
 )
 

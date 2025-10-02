@@ -22,10 +22,10 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/eighthGnom/sonic/internal/encoder/alg"
-	"github.com/eighthGnom/sonic/internal/encoder/vars"
-	"github.com/eighthGnom/sonic/internal/resolver"
-	"github.com/eighthGnom/sonic/internal/rt"
+	"github.com/bytedance/sonic/internal/encoder/alg"
+	"github.com/bytedance/sonic/internal/encoder/vars"
+	"github.com/bytedance/sonic/internal/resolver"
+	"github.com/bytedance/sonic/internal/rt"
 )
 
 func Compact(p *[]byte, v []byte) error {
@@ -101,5 +101,5 @@ func IsZero(val unsafe.Pointer, fv *resolver.FieldMeta) bool {
 	rv := reflect.NewAt(fv.Type, val).Elem()
 	b1 := fv.IsZero == nil && rv.IsZero()
 	b2 := fv.IsZero != nil && fv.IsZero(rv)
-	return b1 || b2
+	return  b1 || b2
 }

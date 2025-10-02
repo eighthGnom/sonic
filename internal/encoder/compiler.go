@@ -20,12 +20,12 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/eighthGnom/sonic/internal/encoder/ir"
-	"github.com/eighthGnom/sonic/internal/encoder/vars"
-	"github.com/eighthGnom/sonic/internal/encoder/vm"
-	"github.com/eighthGnom/sonic/internal/resolver"
-	"github.com/eighthGnom/sonic/internal/rt"
-	"github.com/eighthGnom/sonic/option"
+	"github.com/bytedance/sonic/internal/encoder/ir"
+	"github.com/bytedance/sonic/internal/encoder/vars"
+	"github.com/bytedance/sonic/internal/encoder/vm"
+	"github.com/bytedance/sonic/internal/resolver"
+	"github.com/bytedance/sonic/internal/rt"
+	"github.com/bytedance/sonic/option"
 )
 
 func ForceUseVM() {

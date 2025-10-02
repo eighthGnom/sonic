@@ -20,7 +20,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/eighthGnom/sonic/internal/rt"
+	"github.com/bytedance/sonic/internal/rt"
 )
 
 func Test_DecodeString(t *testing.T) {
@@ -30,7 +30,7 @@ func Test_DecodeString(t *testing.T) {
 		needEsc  bool
 		validStr bool
 	}
-	invalidstr := rt.Mem2Str([]byte{'"', 193, 255, '"'})
+	invalidstr := rt.Mem2Str([]byte{'"',193,255,'"'})
 	println(utf8.ValidString(invalidstr))
 
 	tests := []struct {

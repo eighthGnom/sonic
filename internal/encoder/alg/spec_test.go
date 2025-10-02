@@ -25,7 +25,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/eighthGnom/sonic/testdata"
+	"github.com/bytedance/sonic/testdata"
 )
 
 func BenchmarkU64toa(b *testing.B) {
