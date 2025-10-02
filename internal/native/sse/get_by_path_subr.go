@@ -6,7 +6,7 @@
 package sse
 
 import (
-	"github.com/eighthGnom/sonic/loader"
+	"github.com/bytedance/sonic/loader"
 )
 
 const (

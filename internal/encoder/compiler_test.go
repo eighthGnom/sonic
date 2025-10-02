@@ -21,8 +21,8 @@ import (
 	"testing"
 	"unsafe"
 
-	"github.com/eighthGnom/sonic/internal/rt"
-	"github.com/eighthGnom/sonic/option"
+	"github.com/bytedance/sonic/internal/rt"
+	"github.com/bytedance/sonic/option"
 	"github.com/stretchr/testify/assert"
 )
 

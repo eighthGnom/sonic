@@ -25,8 +25,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/eighthGnom/sonic/internal/envs"
-	"github.com/eighthGnom/sonic/option"
+	"github.com/bytedance/sonic/internal/envs"
+	"github.com/bytedance/sonic/option"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

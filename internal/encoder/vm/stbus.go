@@ -20,11 +20,11 @@ import (
 	"unsafe"
 	_ "unsafe"
 
-	"github.com/eighthGnom/sonic/internal/encoder/alg"
-	"github.com/eighthGnom/sonic/internal/encoder/ir"
-	"github.com/eighthGnom/sonic/internal/encoder/prim"
-	"github.com/eighthGnom/sonic/internal/encoder/vars"
-	"github.com/eighthGnom/sonic/internal/rt"
+	"github.com/bytedance/sonic/internal/encoder/alg"
+	"github.com/bytedance/sonic/internal/encoder/ir"
+	"github.com/bytedance/sonic/internal/encoder/prim"
+	"github.com/bytedance/sonic/internal/encoder/vars"
+	"github.com/bytedance/sonic/internal/rt"
 )
 
 func EncodeTypedPointer(buf *[]byte, vt *rt.GoType, vp *unsafe.Pointer, sb *vars.Stack, fv uint64) error {
@@ -39,8 +39,8 @@ func EncodeTypedPointer(buf *[]byte, vt *rt.GoType, vp *unsafe.Pointer, sb *vars
 	}
 }
 
-var compiler func(*rt.GoType, ...interface{}) (interface{}, error)
+var compiler func(*rt.GoType, ... interface{}) (interface{}, error)
 
-func SetCompiler(c func(*rt.GoType, ...interface{}) (interface{}, error)) {
+func SetCompiler(c func(*rt.GoType, ... interface{}) (interface{}, error)) {
 	compiler = c
 }
